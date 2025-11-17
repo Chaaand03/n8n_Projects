@@ -1,0 +1,201 @@
+{
+  "name": "Automation-1",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Automation 1\n### First automation to understand the working of nodes and how connections are made.\n",
+        "height": 128,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -208,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "f3228945-628d-44c0-9fd2-4c71b505a274",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "formTitle": "Reach Out to me!",
+        "formDescription": "If you find me and my profile interesting and aligned with  something you are looking for, hit me up!",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name:",
+              "placeholder": "Enter your name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Reason to reach out",
+              "placeholder": "Why do you want me...",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Contact",
+              "fieldType": "email",
+              "placeholder": "Best way to contact you...",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -288,
+        80
+      ],
+      "id": "d83340ad-3836-4a18-993d-5ccb228c7f89",
+      "name": "On form submission",
+      "webhookId": "d5498aa6-3eaf-4bfd-b67b-a3566b2c206c",
+      "notesInFlow": true,
+      "notes": "my first form!"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1jODtHgMHK5iIdO_BH81qqerpi8c8Nzzhh91Rn4ZGdWA",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jODtHgMHK5iIdO_BH81qqerpi8c8Nzzhh91Rn4ZGdWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jODtHgMHK5iIdO_BH81qqerpi8c8Nzzhh91Rn4ZGdWA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json['Name:'] }}",
+            "Reason": "={{ $json['Reason to reach out'] }}",
+            "Email": "={{ $json.Contact }}",
+            "Time": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reason",
+              "displayName": "Reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -80,
+        80
+      ],
+      "id": "3f9aef92-e192-4ff4-92dc-1b058db110d7",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gTsn1LktCC11KYPD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "chandanamallu03@gmail.com",
+        "subject": "Leads form updated",
+        "message": "=<table border=\"0\" cellpadding=\"8\" cellspacing=\"0\" style=\"border-collapse:collapse; width:100%; max-width:500px; font-family:Arial, sans-serif; background-color:#f9f9f9;\">   <tr style=\"background-color:#4CAF50; color:#fff;\">     <th align=\"left\" colspan=\"2\" style=\"font-size:18px; padding:12px;\">New Row Appended in Sheet</th>   </tr>   <tr>     <td style=\"border-bottom:1px solid #eee; font-weight:bold; width:35%;\">Name</td>     <td style=\"border-bottom:1px solid #eee;\">{{ $json.Name }}</td>   </tr>   <tr>     <td style=\"border-bottom:1px solid #eee; font-weight:bold;\">Reason</td>     <td style=\"border-bottom:1px solid #eee;\">{{ $json.Reason }}</td>   </tr>   <tr>     <td style=\"border-bottom:1px solid #eee; font-weight:bold;\">Email</td>     <td style=\"border-bottom:1px solid #eee;\"><a href=\"mailto:doe@gmail.com\" style=\"color:#4CAF50; text-decoration:none;\"></a>{{ $json.Email }}</td>   </tr>   <tr>     <td style=\"border-bottom:1px solid #eee; font-weight:bold;\">Time</td>     <td style=\"border-bottom:1px solid #eee;\">{{ $json.Time }}</td>   </tr>   <tr>     <td style=\"border-bottom:1px solid #eee; font-weight:bold;\">Items</td>     <td style=\"border-bottom:1px solid #eee;\">1 item</td>   </tr> </table>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        128,
+        80
+      ],
+      "id": "6fe2bc1d-c403-45c1-9f6f-12e390e10b5c",
+      "name": "Send a message",
+      "webhookId": "85d85e91-5535-4d70-bd13-1c9ce12a8477",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "D5QBZY6Zu36ZTq8Z",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "de1e188d-4089-4e68-b1ca-99c209fae665",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a8316f9aa03c0ca3cdef449a502fa4dc017429e527278bb9471263f8964bfd1"
+  },
+  "id": "cPhsGczhwZ61fEx0",
+  "tags": []
+}
